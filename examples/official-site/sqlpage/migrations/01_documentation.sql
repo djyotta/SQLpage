@@ -453,7 +453,6 @@ many short ascii text values are submitted.
   {
     "component": "form",
     "method": "post",
-    "enctype": "multipart/form-data",
     "title": "Submit with different encoding types",
     "validate": "Submit with form encoding type",
     "action": "examples/handle_enctype.sql"
