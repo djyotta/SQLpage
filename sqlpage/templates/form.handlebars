@@ -2,7 +2,9 @@
     {{#if id}}id="{{id}}"{{/if}}
     class="my-3 {{class}}"
     method="{{default method "post"}}"
-    {{#if enctype}}enctype="{{enctype}}"{{/if}}
+    enctype="{{default enctype "multipart/form-data"}}"
+    <!-- For efficiency, change the form encoding type on the default submit button if there is no file input -->
+    {{default_submit_formenctype = default enctype "application/x-www-form-urlencoded"}}
     {{#if action}}action="{{action}}"
     {{else}}
     {{#if id}}action="#{{id}}"{{/if}}
@@ -120,8 +122,8 @@
             {{/if}}
             {{/if}}
             {{#if (eq type "file")}}
-                <!-- Change the form encoding type if this is a file input-->
-                {{#delay}}formenctype="multipart/form-data"{{/delay}}
+                <!-- Change the form encoding type on the default submit button if there is a file input and user has not set form enctype -->
+                {{default_submit_formenctype = default enctype "multipart/form-data"}}
             {{/if}}
         {{/each_row}}
         </div>
@@ -131,7 +133,9 @@
             {{#if validate_shape}} btn-{{validate_shape}} {{/if}}
             {{#if validate_outline}} btn-outline-{{validate_outline}} {{/if}}
             {{#if validate_size}} btn-{{validate_size}} {{/if}}"
-            {{flush_delayed}}
+            {{#if and (has_file not (enctyp}}
+            formenctype={{default_submit_formenctype}}
+            {{/fi}}
             type="submit"
             {{#if validate}}value="{{validate}}"{{/if}}>
         {{/if}}
