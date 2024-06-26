@@ -1,10 +1,13 @@
+<!--
+    For compatibility, use multipart/form-data as form enctype.
+    But for efficiency, use application/x-www-form-urlencoded on default submit button.
+-->
+{{#delay}}formenctype="{{default enctype "application/x-www-form-urlencoded"}}"{{/delay}}
 <form 
     {{#if id}}id="{{id}}"{{/if}}
     class="my-3 {{class}}"
     method="{{default method "post"}}"
     enctype="{{default enctype "multipart/form-data"}}"
-    <!-- For efficiency, change the form encoding type on the default submit button if there is no file input -->
-    {{default_submit_formenctype = default enctype "application/x-www-form-urlencoded"}}
     {{#if action}}action="{{action}}"
     {{else}}
     {{#if id}}action="#{{id}}"{{/if}}
@@ -122,20 +125,17 @@
             {{/if}}
             {{/if}}
             {{#if (eq type "file")}}
-                <!-- Change the form encoding type on the default submit button if there is a file input and user has not set form enctype -->
-                {{default_submit_formenctype = default enctype "multipart/form-data"}}
+                <!-- Do not override form encoding type {{flush_delayed}} -->
             {{/if}}
         {{/each_row}}
         </div>
-        {{#if (ne validate '')}} 
+        {{#if (ne validate '')}}
             <input class="btn
             btn-{{default validate_color "primary"}}
             {{#if validate_shape}} btn-{{validate_shape}} {{/if}}
             {{#if validate_outline}} btn-outline-{{validate_outline}} {{/if}}
             {{#if validate_size}} btn-{{validate_size}} {{/if}}"
-            {{#if and (has_file not (enctyp}}
-            formenctype={{default_submit_formenctype}}
-            {{/fi}}
+            {{flush_delayed}}
             type="submit"
             {{#if validate}}value="{{validate}}"{{/if}}>
         {{/if}}
