@@ -436,6 +436,9 @@ INSERT INTO uploaded_file(name, data) VALUES(:filename, sqlpage.uploaded_file_da
 You can specify the way form data should be encoded by setting the `enctype`
 top-level property on the form.
 
+The default validation button `formenctype` is set to
+`application/x-www-form-urlencoded` unless a `file` input is present.
+
 You may also specify `formenctype` on `submit` and `image` type inputs.
 This will take precedence over the `enctype` specified on the form and is
 useful in the case there are multiple `submit` buttons on the form.
@@ -450,7 +453,6 @@ many short ascii text values are submitted.
   {
     "component": "form",
     "method": "post",
-    "enctype": "multipart/form-data",
     "title": "Submit with different encoding types",
     "validate": "Submit with form encoding type",
     "action": "examples/handle_enctype.sql"

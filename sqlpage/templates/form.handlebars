@@ -1,8 +1,13 @@
+<!--
+    For compatibility, use multipart/form-data as form enctype.
+    But for efficiency, use application/x-www-form-urlencoded on default submit button.
+-->
+{{#delay}}formenctype="{{default enctype "application/x-www-form-urlencoded"}}"{{/delay}}
 <form 
     {{#if id}}id="{{id}}"{{/if}}
     class="my-3 {{class}}"
     method="{{default method "post"}}"
-    {{#if enctype}}enctype="{{enctype}}"{{/if}}
+    enctype="{{default enctype "multipart/form-data"}}"
     {{#if action}}action="{{action}}"
     {{else}}
     {{#if id}}action="#{{id}}"{{/if}}
@@ -120,12 +125,11 @@
             {{/if}}
             {{/if}}
             {{#if (eq type "file")}}
-                <!-- Change the form encoding type if this is a file input-->
-                {{#delay}}formenctype="multipart/form-data"{{/delay}}
+                <!-- Do not override form encoding type {{flush_delayed}} -->
             {{/if}}
         {{/each_row}}
         </div>
-        {{#if (ne validate '')}} 
+        {{#if (ne validate '')}}
             <input class="btn
             btn-{{default validate_color "primary"}}
             {{#if validate_shape}} btn-{{validate_shape}} {{/if}}
